@@ -70,16 +70,16 @@ class APIClient(object):
 
         return url
 
-    def _execute(self, method, function, oauth=False, **kwargs):
-        access_token = kwargs.pop('access_token', None)
-
+    def _execute(self, method, function, access_token=None, **kwargs):
+        oauth = True if access_token else False
         url = self._assemble_url(API_URL, method, function, oauth, **kwargs)
 
-        if oauth:
+        if access_token:
             oa7d = Oauth7digital(self.oauthkey,
                                  self.secret,
                                  access_token)
             response, content = oa7d.request(url)
+            print response, content, access_token
             api_response = xmltodict.parse(content, xml_attribs=True)
         else:
             fd = urllib2.urlopen(url)
@@ -119,10 +119,10 @@ class APIClient(object):
                 A python Ordered Dictionary of the results of the
                 API, converted from XML.
         '''
-        if not kwargs.get('access_token'):
+        if not access_token:
             raise APIClientException("access_token required for oauth request")
 
-        return self._execute(method, function, oauth=True, **kwargs)
+        return self._execute(method, function, access_token, **kwargs)
 
     def preview_url(self, track_id):
         ''' construct a preview url for a track identified by its
