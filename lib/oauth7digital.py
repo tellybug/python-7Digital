@@ -5,7 +5,6 @@ import re
 import sys
 
 import oauth2 as oauth # https://github.com/simplegeo/python-oauth2
-import xmltodict
 
 class Oauth7digital(object):
     key = None
@@ -14,7 +13,6 @@ class Oauth7digital(object):
     VERSION = '1.2'
     REQUEST_TOKEN_URL = 'https://%s/%s/oauth/requesttoken' % (SERVER, VERSION)
     ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, VERSION)
-    LOCKER_ENDPOINT_URL = 'https://%s/%s/user/locker' % (SERVER, VERSION)
     AUTHORIZATION_URL = 'https://account.7digital.com/%s/oauth/authorise'
     LOGGER_NAME = 'Oauth7Digital.log'
 
@@ -75,19 +73,14 @@ class Oauth7digital(object):
         )
         return self._token_from_response_content(content)
 
-    def get_locker(self):
-        locker = self.execute_request(self.LOCKER_ENDPOINT_URL,
-                                      self.access_token).get('locker', {})
-        return locker
-
-    def execute_request(self, url, access_token):
+    def request(self, url):
         ''' Once you have an access_token authorized by a customer,
             execute a request on their behald
         '''
-        client = oauth.Client(self._consumer(), token=access_token)
-        response, content = client.request(
+        client = oauth.Client(self._consumer(), token=self.access_token)
+        response = client.request(
                 url,
                 headers={"Content-Type":"application/x-www-form-urlencoded"}
         )
 
-        return xmltodict.parse(content)['response']
+        return response
