@@ -1,6 +1,7 @@
 import httplib
 import logging
 import os
+import re
 import sys
 import oauth2 as oauth # https://github.com/simplegeo/python-oauth2
 from lockerEndpoint import Locker
@@ -31,26 +32,29 @@ class Oauth7digital(object):
             self.logger.addHandler(logging.StreamHandler(log_fd))
 
 
+    def _token_from_response_content(self, content):
+        key = re.search(
+            "<oauth_token>(\w.+)</oauth_token>",
+            content).groups()[0]
+        secret = re.search(
+            "<oauth_token_secret>(\w.+)</oauth_token_secret>",
+            content).groups()[0]
+
+        return oauth.Token(key, secret)
+
     def request_token(self):
         self.logger.info('\nOAUTH STEP 1')
-        oauth_request = oauth.Request.from_consumer_and_token(
-            self.__consumer(),
-            http_url = self.REQUEST_TOKEN_URL,
-            parameters={}
-        )
-        self.logger.info('\nMESSAGE:: %s' % oauth_request)
-        oauth_request.sign_request(
-            self.__signature_method(),
-            self.__consumer(),
-            None
-        )
-        resp = self.__fetch_response(oauth_request, self.__secure_connection())
 
-        token = oauth.Token.from_string(resp)
-        return token
+        client = oauth.Client(self.__consumer())
+        response, content = client.request(
+            self.REQUEST_TOKEN_URL,
+            headers = {"Content-Type":"application/x-www-form-urlencoded"}
+        )
+
+        return self._token_from_response_content(content)
 
     def authorize_request_token(self, token):
-        keyed_auth_url = AUTHORIZATION_URL % self.key
+        keyed_auth_url = self.AUTHORIZATION_URL % self.key
         self.logger.info('\nOAUTH STEP 2')
         auth_url="%s?oauth_token=%s" % (keyed_auth_url, token.key)
 
@@ -61,11 +65,12 @@ class Oauth7digital(object):
 
     def request_access_token(self, token):
         self.logger.info('\nOAUTH STEP 3')
-        oauth_request = self.__sign_oauth_request(token, self.ACCESS_TOKEN_URL)
-        resp = self.__fetch_response(oauth_request, self.__secure_connection())
-
-        token = oauth.Token.from_string(resp)
-        return token
+        client = oauth.Client(self.__consumer(), token=token)
+        response, content = client.request(
+                self.ACCESS_TOKEN_URL,
+                headers={"Content-Type":"application/x-www-form-urlencoded"}
+        )
+        return self.__token_from_response_content(content)
 
     def get_user_locker(self):
         resp = self.__get_locker()
@@ -87,44 +92,14 @@ class Oauth7digital(object):
         resp = self.__get_locker()
         return Locker(resp).get_contents()
 
-    def __get_locker(self):
-        oauth_request = self.__sign_oauth_request(
-            self.access_token,
-            self.LOCKER_ENDPOINT_URL
+    def _get_locker(self):
+        client = oauth.Client(self.__consumer(), token=self.access_token)
+        response, content = client.request(
+                self.LOCKER_ENDPOINT_URL,
+                headers={"Content-Type":"application/x-www-form-urlencoded"}
         )
-        resp = self.__fetch_response(oauth_request, self.__connection())
-        return resp
+        return content
 
-    def __sign_oauth_request(self, token, url_end_point):
-        oauth_request = oauth.Request.from_consumer_and_token(
-            self.__consumer(),
-            token=token,
-            http_url = url_end_point,
-            parameters={}
-        )
-        oauth_request.sign_request(
-            self.__signature_method(),
-            self.__consumer(),
-            token
-        )
-        return oauth_request
-
-    def __consumer(self):
+    def _consumer(self):
         return oauth.Consumer(self.key, self.secret)
 
-    def __signature_method(self):
-        return oauth.SignatureMethod_HMAC_SHA1()
-
-    def __secure_connection(self):
-        return httplib.HTTPSConnection(self.SERVER)
-
-    def __connection(self):
-        return httplib.HTTPConnection(self.SERVER)
-
-    def __fetch_response(self, oauth_request, connection):
-        url = oauth_request.to_url()
-        connection.request(oauth_request.method, url)
-        response = connection.getresponse()
-        result = response.read()
-        self.logger.info("Response fetched: %s" % result)
-        return result
