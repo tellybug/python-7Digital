@@ -58,6 +58,7 @@ git://github.com/7digital/python-7digital-api.git
 included in this library)
 
 Its usage remains the same:
+
    -- OAuth Usage
 
         auth = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET)
