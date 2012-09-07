@@ -38,16 +38,16 @@ Usage
 
 Examples
 -------
-    client = py7D.APIClient(oauth_consumer_key, country='USA')
+    client = py7D.APIClient(oauth_consumer_key, 'USA')
     results = client.request('artist', 'search', q='black')
     results = client.request('artist', 'search', q='black', page=1, pageSize=20)
     results = client.request('tag', None)
 
-    client = py7D.APIClient(oauth_consumer_key, country='GB')
+    client = py7D.APIClient(oauth_consumer_key, 'GB')
     results = client.request('artist', 'details', artistId=263)
     
     OAuth signed request:
-    client = py7D.APIClient(oauth_consumer_key, country='USA', secret=oauth_consumer_secret)
+    client = py7D.APIClient(oauth_consumer_key, 'USA', secret=oauth_consumer_secret)
     client.oauth_request('user', 'locker', access_token)
     
 
