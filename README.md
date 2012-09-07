@@ -65,7 +65,4 @@ Its usage to get an access token remains the same:
     token = auth.request_token()
     authorized = auth.authorize_request_token(token)
     access_token = auth.request_access_token(token)
-      
-    sevendigital = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET, access_token)
-    results = sevendigital.get_locker() 
  
