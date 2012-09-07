@@ -79,7 +79,7 @@ class APIClient(object):
                                  self.secret,
                                  access_token)
             response, content = oa7d.request(url)
-            print response, content, access_token
+
             api_response = xmltodict.parse(content, xml_attribs=True)
         else:
             fd = urllib2.urlopen(url)
@@ -104,6 +104,10 @@ class APIClient(object):
                 A python Ordered Dictionary of the results of the
                 API, converted from XML.
         '''
+        if kwargs.get('access_token'):
+            raise APIClientException(
+                "Please use oauth_request() for calls containing access_token")
+
         return self._execute(method, function, **kwargs)
 
 
