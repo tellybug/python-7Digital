@@ -32,8 +32,7 @@ would convert to {'track' : {'@id' : 123, ...}}
 Usage
 -----
     import py7D
-    client = py7D.APIClient("your oauth_consumer_key",
-                       "an ISO country code")
+    client = py7D.APIClient("your oauth_consumer_key", "an ISO country code")
     results = client.request(method, function, page=1, pageSize=10)
     results = client.request(method, function)
 
