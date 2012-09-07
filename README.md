@@ -1,4 +1,4 @@
-python-7Digital
+python-7Digital (py7D)
 ===============
 py7D - A lightweight client for the 7Digital API.
 
