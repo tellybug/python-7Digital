@@ -11,7 +11,7 @@ Prerequisites
 
 Description
 ===========
-python_7Digital is a very lightweight API client for the 7Digital API.
+py7D is a very lightweight API client for the 7Digital API.
 
 The client is meant to provide a very thin layer of access to the 7Digital API
 with which you can make any call to any of the valid methods and functions
