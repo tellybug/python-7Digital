@@ -29,16 +29,16 @@ key name preceded by the '@' character. For example,
 would convert to {'track' : {'@id' : 123, ...}}
 
 
-    Usage
-    -----
+Usage
+-----
     import py7D
     client = py7D.APIClient("your oauth_consumer_key",
                        "an ISO country code")
     results = client.request(method, function, page=1, pageSize=10)
     results = client.request(method, function)
 
-    Examples
-    -------
+Examples
+-------
     client = py7D.APIClient(oauth_consumer_key, country='USA')
     results = client.request('artist', 'search', q='black')
     results = client.request('artist', 'search', q='black', page=1, pageSize=20)
