@@ -54,8 +54,6 @@ to use python-oauth2 instead of python-oauth.
 
 The original oauth7digital.py can be found at 
 git://github.com/7digital/python-7digital-api.git
-(Please note a dependency on lockerEndpoint.py, which is 
-included in this library)
 
 Its usage remains the same:
 

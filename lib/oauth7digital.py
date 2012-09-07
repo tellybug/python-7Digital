@@ -3,8 +3,9 @@ import logging
 import os
 import re
 import sys
+
 import oauth2 as oauth # https://github.com/simplegeo/python-oauth2
-from lockerEndpoint import Locker
+import xmltodict
 
 class Oauth7digital(object):
     key = None
@@ -15,22 +16,24 @@ class Oauth7digital(object):
     ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, VERSION)
     LOCKER_ENDPOINT_URL = 'http://%s/%s/user/locker' % (SERVER, VERSION)
     AUTHORIZATION_URL = 'https://account.7digital.com/%s/oauth/authorise'
-    LOGGER_NAME = 'OAuth7Digital.log'
+    LOGGER_NAME = 'Oauth7Digital.log'
 
     def __init__(self, key, secret, access_token = None,
-                 log_dir=None, log_name=None):
+                 log_dir=None, log_name=None, log_level=logging.DEBUG):
         self.key = key
         self.secret = secret
         self.access_token = access_token
 
         self.logger = logging.getLogger(log_name)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(log_level)
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
         if log_dir and log_name:
             log_fd = open(os.path.join(log_dir, log_name))
             self.logger.addHandler(logging.StreamHandler(log_fd))
 
+    def _consumer(self):
+        return oauth.Consumer(self.key, self.secret)
 
     def _token_from_response_content(self, content):
         key = re.search(
@@ -72,34 +75,19 @@ class Oauth7digital(object):
         )
         return self._token_from_response_content(content)
 
-    def get_user_locker(self):
-        resp = self._get_locker()
-        return Locker(resp).get_content()
-
-    def get_artist_from_user_locker(self):
-        resp = self._get_locker()
-        return Locker(resp).get_artists()
-
-    def get_releases_from_user_locker(self):
-        resp = self._get_locker()
-        return Locker(resp).get_releases()
-
-    def get_tracks_from_user_locker(self):
-        resp = self._get_locker()
-        return Locker(resp).get_tracks()
-
     def get_locker(self):
-        resp = self._get_locker()
-        return Locker(resp).get_contents()
+        locker = self.execute_request(self.LOCKER_ENDPOINT_URL,
+                                      self.access_token).get('locker', {})
+        return locker
 
-    def _get_locker(self):
-        client = oauth.Client(self._consumer(), token=self.access_token)
+    def execute_request(self, url, access_token):
+        ''' Once you have an access_token authorized by a customer,
+            execute a request on their behald
+        '''
+        client = oauth.Client(self._consumer(), token=access_token)
         response, content = client.request(
-                self.LOCKER_ENDPOINT_URL,
+                url,
                 headers={"Content-Type":"application/x-www-form-urlencoded"}
         )
-        return content
 
-    def _consumer(self):
-        return oauth.Consumer(self.key, self.secret)
-
+        return xmltodict.parse(content)['response']
