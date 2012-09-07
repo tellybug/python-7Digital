@@ -45,7 +45,7 @@ class Oauth7digital(object):
     def request_token(self):
         self.logger.info('\nOAUTH STEP 1')
 
-        client = oauth.Client(self.__consumer())
+        client = oauth.Client(self._consumer())
         response, content = client.request(
             self.REQUEST_TOKEN_URL,
             headers = {"Content-Type":"application/x-www-form-urlencoded"}
@@ -65,35 +65,35 @@ class Oauth7digital(object):
 
     def request_access_token(self, token):
         self.logger.info('\nOAUTH STEP 3')
-        client = oauth.Client(self.__consumer(), token=token)
+        client = oauth.Client(self._consumer(), token=token)
         response, content = client.request(
                 self.ACCESS_TOKEN_URL,
                 headers={"Content-Type":"application/x-www-form-urlencoded"}
         )
-        return self.__token_from_response_content(content)
+        return self._token_from_response_content(content)
 
     def get_user_locker(self):
-        resp = self.__get_locker()
+        resp = self._get_locker()
         return Locker(resp).get_content()
 
     def get_artist_from_user_locker(self):
-        resp = self.__get_locker()
+        resp = self._get_locker()
         return Locker(resp).get_artists()
 
     def get_releases_from_user_locker(self):
-        resp = self.__get_locker()
+        resp = self._get_locker()
         return Locker(resp).get_releases()
 
     def get_tracks_from_user_locker(self):
-        resp = self.__get_locker()
+        resp = self._get_locker()
         return Locker(resp).get_tracks()
 
     def get_locker(self):
-        resp = self.__get_locker()
+        resp = self._get_locker()
         return Locker(resp).get_contents()
 
     def _get_locker(self):
-        client = oauth.Client(self.__consumer(), token=self.access_token)
+        client = oauth.Client(self._consumer(), token=self.access_token)
         response, content = client.request(
                 self.LOCKER_ENDPOINT_URL,
                 headers={"Content-Type":"application/x-www-form-urlencoded"}
