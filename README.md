@@ -4,10 +4,9 @@ py7D - A lightweight client for the 7Digital API.
 
 Prerequisites
 =============
- python-oath2   git://github.com/simplegeo/python-oauth2.git
+ python-oath2 :   git://github.com/simplegeo/python-oauth2.git
  
- xmltodict      pip install xmltodict or
-                clone from git://github.com/martinblech/xmltodict.git
+ xmltodict :      pip install xmltodict or clone from git://github.com/martinblech/xmltodict.git
                 
 
 Description
