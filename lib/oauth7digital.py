@@ -22,12 +22,12 @@ class Oauth7digital(object):
         self.secret = secret
         self.access_token = access_token
 
-        self.logger = logging.getLogger(LOG_NAME)
+        self.logger = logging.getLogger(log_name)
         self.logger.setLevel(logging.INFO)
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
 
         if log_dir and log_name:
-            log_fd = open(os.path.join(LOG_DIR, LOG_NAME))
+            log_fd = open(os.path.join(log_dir, log_name))
             self.logger.addHandler(logging.StreamHandler(log_fd))
 
 
@@ -122,10 +122,9 @@ class Oauth7digital(object):
         return httplib.HTTPConnection(self.SERVER)
 
     def __fetch_response(self, oauth_request, connection):
-	    url = oauth_request.to_url()
-	    connection.request(oauth_request.http_method, url)
-	    response = connection.getresponse()
-	    result = response.read()
-
-	    return result
-
+        url = oauth_request.to_url()
+        connection.request(oauth_request.method, url)
+        response = connection.getresponse()
+        result = response.read()
+        self.logger.info("Response fetched: %s" % result)
+        return result
