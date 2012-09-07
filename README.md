@@ -45,9 +45,13 @@ Examples
 
     client = py7D.APIClient(oauth_consumer_key, country='GB')
     results = client.request('artist', 'details', artistId=263)
+    
+    OAuth signed request:
+    client = py7D.APIClient(oauth_consumer_key, country='USA', secret=oauth_consumer_secret)
+    client.oauth_request('user', 'locker', access_token)
+    
 
-
-Notes
+OAuth
 =====
 The oauth7digital.py module included has been upgraded from it's original
 to use python-oauth2 instead of python-oauth.
@@ -55,13 +59,14 @@ to use python-oauth2 instead of python-oauth.
 The original oauth7digital.py can be found at 
 git://github.com/7digital/python-7digital-api.git
 
-Its usage remains the same:
+Its usage to get an access token remains the same:
 
         auth = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET)
         token = auth.request_token()
         authorized = auth.authorize_request_token(token)
         access_token = auth.request_access_token(token)
-        
+   
+    
         sevendigital = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET, access_token)
         results = sevendigital.get_locker() 
  
