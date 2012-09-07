@@ -14,7 +14,7 @@ class Oauth7digital(object):
     VERSION = '1.2'
     REQUEST_TOKEN_URL = 'https://%s/%s/oauth/requesttoken' % (SERVER, VERSION)
     ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, VERSION)
-    LOCKER_ENDPOINT_URL = 'http://%s/%s/user/locker' % (SERVER, VERSION)
+    LOCKER_ENDPOINT_URL = 'https://%s/%s/user/locker' % (SERVER, VERSION)
     AUTHORIZATION_URL = 'https://account.7digital.com/%s/oauth/authorise'
     LOGGER_NAME = 'Oauth7Digital.log'
 
