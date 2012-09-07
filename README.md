@@ -59,8 +59,6 @@ included in this library)
 
 Its usage remains the same:
 
-   -- OAuth Usage
-
         auth = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET)
         token = auth.request_token()
         authorized = auth.authorize_request_token(token)
