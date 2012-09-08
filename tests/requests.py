@@ -5,7 +5,7 @@ class RequestTest(unittest.TestCase):
 
     def testApi(self):
         response = py7D.request('status', None)
-        assert response['@status'] == 'ok', (
+        assert response['response']['@status'] == 'ok', (
                 "API Status error. Response: %s" % response)
     
     def testArtistSearch(self):
@@ -13,7 +13,7 @@ class RequestTest(unittest.TestCase):
             In this case, use artist search.
         '''
         response = py7D.request('artist', 'search', q='Pink')
-        assert response['@status'] == 'ok', (
+        assert response['response']['@status'] == 'ok', (
                 "API Status error. Response: %s" % response)        
 
 

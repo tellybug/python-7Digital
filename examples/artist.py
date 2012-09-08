@@ -7,7 +7,7 @@ def artist_search(*args, **kwargs):
     kwargs['pageSize'] = str(kwargs.get('pageSize', 10))
 
     results = py7D.request('artist', 'search', **kwargs)
-    return results['searchResults']
+    return results['response']['searchResults']
 
 if __name__ == "__main__":
     print json.dumps(artist_search(q="Pink", pageSize=3),

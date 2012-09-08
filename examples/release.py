@@ -7,7 +7,8 @@ def find_release(search_string):
     
     response = py7D.request('release', 'search', q=search_string, pageSize=5)
     
-    results = response['searchResults']['searchResult']
+    headers = response['http_headers']
+    results = response['response']['searchResults']['searchResult']
     
     return results
 

@@ -4,7 +4,7 @@ import json
 def track_previews():
 
     response = py7D.request('track', 'search', q='Aja', pageSize=3)
-    tracks = response['searchResults']['searchResult']
+    tracks = response['response']['searchResults']['searchResult']
     
 
     for track in tracks:
