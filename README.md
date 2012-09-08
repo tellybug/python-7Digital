@@ -68,7 +68,8 @@ Its usage to get an access token remains the same:
  
 Example Output
 --------------
-client.request('artist', 'search', q='pink', pageSize=3)
+    client.request('artist', 'search', q='pink', pageSize=3)
+    print json.dumps(rc, indent=4)
 
     {
         "@status": "ok", 
