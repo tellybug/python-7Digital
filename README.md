@@ -66,7 +66,10 @@ Its usage to get an access token:
 Example Output
 --------------
     resp = py7D.request('artist', 'search', q='pink', pageSize=3)
-    print json.dumps(resp, indent=4)
+    >>> resp.keys()
+    [u'response', 'http_headers']
+    
+    print json.dumps(resp['response'], indent=4)
 
     {
         "@status": "ok", 
@@ -118,3 +121,26 @@ Example Output
             ]
         }
     }
+
+    >>> pprint(resp['http_headers'])
+    {'accept-ranges': 'bytes',
+     'access-control-allow-origin': '*',
+     'age': '0',
+     'cache-control': 'private, max-age=60',
+     'connection': 'Keep-Alive',
+     'content-length': '1388',
+     'content-location': 'https://api.7digital.com/1.2/artist/search?....', #edited for README
+     'content-type': 'text/xml; charset=utf-8',
+     'date': 'Sat, 08 Sep 2012 18:44:11 GMT',
+     'expires': 'Sat, 08 Sep 2012 18:45:11 GMT',
+     'last-modified': 'Sat, 08 Sep 2012 18:44:06 GMT',
+     'server': 'nginx/0.7.67',
+     'set-cookie': ...', #edited for README
+     'status': '200',
+     'x-7dig': 'aw0',
+     'x-aspnet-version': '4.0.30319',
+     'x-cdn': 'Served by WebAcceleration',
+     'x-ratelimit-current': '24',
+     'x-ratelimit-limit': '4000',
+     'x-ratelimit-reset': '18953'}
+        
