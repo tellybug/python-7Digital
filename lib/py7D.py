@@ -13,7 +13,7 @@ __doc__ = 'A lightweight python interface to 7Digital web service'
 __author__ = 'Jason Rubenstein'
 __version__ = '0.0.1'
 __maintainer__ = 'Jason Rubenstein'
-__email__ = 'jason@mypono.com'
+__email__ = 'jasondrubenstein@gmail.com'
 __status__ = 'Alpha'
 
 API_VERSION = '1.2'
