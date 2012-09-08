@@ -66,3 +66,57 @@ Its usage to get an access token remains the same:
     authorized = auth.authorize_request_token(token)
     access_token = auth.request_access_token(token)
  
+Example Output
+--------------
+client.request('artist', 'search', q='pink', pageSize=3)
+
+{
+    "@status": "ok", 
+    "@xsi:noNamespaceSchemaLocation": "http://api.7digital.com/1.2/static/7digitalAPI.xsd", 
+    "@version": "1.2", 
+    "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema", 
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", 
+    "searchResults": {
+        "page": "1", 
+        "pageSize": "3", 
+        "totalItems": "211", 
+        "searchResult": [
+            {
+                "type": "artist", 
+                "score": "2.898118", 
+                "artist": {
+                    "@id": "447", 
+                    "name": "Pink Floyd", 
+                    "sortName": "Pink Floyd", 
+                    "url": "http://www.7digital.com/artist/pink-floyd/?partner=3694", 
+                    "image": "http://cdn.7static.com/static/img/artistimages/00/000/004/0000000447_150.jpg", 
+                    "popularity": "0.73"
+                }
+            }, 
+            {
+                "type": "artist", 
+                "score": "2.4674335", 
+                "artist": {
+                    "@id": "226", 
+                    "name": "Pink", 
+                    "sortName": "Pink", 
+                    "url": "http://www.7digital.com/artist/pink/?partner=3694", 
+                    "image": "http://cdn.7static.com/static/img/artistimages/00/000/002/0000000226_150.jpg", 
+                    "popularity": "0.71"
+                }
+            }, 
+            {
+                "type": "artist", 
+                "score": "2.329452", 
+                "artist": {
+                    "@id": "7522", 
+                    "name": "Pink Martini", 
+                    "sortName": "Pink Martini", 
+                    "url": "http://www.7digital.com/artist/pink-martini/?partner=3694", 
+                    "image": "http://cdn.7static.com/static/img/artistimages/00/000/075/0000007522_150.jpg", 
+                    "popularity": "0.5"
+                }
+            }
+        ]
+    }
+}
