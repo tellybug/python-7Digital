@@ -5,7 +5,7 @@ import re
 import urlparse
 import xmltodict
 
-from oauth7digital import Oauth7digital
+import oauth7digital as oa7D
 import api_settings
 
 __name__ = 'py7D'
@@ -60,11 +60,7 @@ def _execute(method, function, access_token=None, **kwargs):
     url = _assemble_url(API_URL, method, function, oauth, **kwargs)
 
     if access_token:
-        oa7d = Oauth7digital(api_settings.oauthkey,
-                             api_settings.secret,
-                             access_token)
-        response, content = oa7d.request(url)
-
+        response, content = oa7D.request(url, access_token)
         api_response = xmltodict.parse(content, xml_attribs=True)
     else:
         fd = urllib2.urlopen(url)
