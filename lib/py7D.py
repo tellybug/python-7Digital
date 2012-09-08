@@ -1,6 +1,6 @@
+import httplib2
 import os
 import urllib
-import urllib2
 import re
 import urlparse
 import xmltodict
@@ -60,11 +60,11 @@ def _execute(method, function, access_token=None, **kwargs):
     url = _assemble_url(API_URL, method, function, oauth, **kwargs)
 
     if access_token:
-        response, content = oa7D.request(url, access_token)
+        http_response, content = oa7D.request(url, access_token)
         api_response = xmltodict.parse(content, xml_attribs=True)
     else:
-        fd = urllib2.urlopen(url)
-        api_response = xmltodict.parse(fd, xml_attribs=True)
+        http_response, content = httplib2.Http().request(url)
+        api_response = xmltodict.parse(content, xml_attribs=True)
 
     if api_response['response']['@status'] == "error":
         raise APIServiceExeption('Error code %s: %s' % (
@@ -72,7 +72,8 @@ def _execute(method, function, access_token=None, **kwargs):
                 api_response['response']['error']['errorMessage'])
         )
 
-    return api_response['response']
+    api_response['http_headers'] = http_response
+    return api_response
 
 def request(method, function, **kwargs):
     ''' Input:
