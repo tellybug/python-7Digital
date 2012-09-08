@@ -27,7 +27,7 @@ class APIClientException(Exception):
     pass
 
 class APIClient(object):
-    ''' The base API client with which requests will be made.
+    ''' The API client with which requests will be made.
 
         Input:
             OAUTHkey : your 7Digital oauth_consumer_key
