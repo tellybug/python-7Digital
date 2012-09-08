@@ -51,17 +51,16 @@ Examples
 OAuth
 -----
 The oauth7digital.py module included has been upgraded from it's original
-to use python-oauth2 instead of python-oauth.
+to use python-oauth2 instead of python-oauth. It also looks for its settings in the api_settings module. 
 
 The original oauth7digital.py can be found at 
 git://github.com/7digital/python-7digital-api.git
 
-Its usage to get an access token remains the same:
-
-    auth = Oauth7digital(CONSUMER_KEY, CONSUMER_SECRET)
-    token = auth.request_token()
-    authorized = auth.authorize_request_token(token)
-    access_token = auth.request_access_token(token)
+Its usage to get an access token:
+    import oauth7digital as oa7d
+    token = oa7d.request_token()
+    authorized = oa7d.authorize_request_token(token)
+    access_token = oa7d.request_access_token(token)
  
 Example Output
 --------------

@@ -22,10 +22,10 @@ if api_settings.log_dir and api_settings.log_name:
     logger.addHandler(logging.StreamHandler(log_fd))
 
 
-def _consumer(self):
+def _consumer():
     return oauth.Consumer(api_settings.oauthkey, api_settings.secret)
 
-def _token_from_response_content(self, content):
+def _token_from_response_content(content):
     key = re.search(
         "<oauth_token>(\w.+)</oauth_token>",
         content).groups()[0]
@@ -35,19 +35,19 @@ def _token_from_response_content(self, content):
 
     return oauth.Token(key, secret)
 
-def request_token(self):
+def request_token():
     logger.info('\nOAUTH STEP 1')
 
-    client = oauth.Client(self._consumer())
+    client = oauth.Client(_consumer())
     response, content = client.request(
-        self.REQUEST_TOKEN_URL,
+        REQUEST_TOKEN_URL,
         headers = {"Content-Type":"application/x-www-form-urlencoded"}
     )
 
-    return self._token_from_response_content(content)
+    return _token_from_response_content(content)
 
-def authorize_request_token(self, token):
-    keyed_auth_url = self.AUTHORIZATION_URL % api_settings.oauthkey
+def authorize_request_token(token):
+    keyed_auth_url = AUTHORIZATION_URL % api_settings.oauthkey
     logger.info('\nOAUTH STEP 2')
     auth_url="%s?oauth_token=%s" % (keyed_auth_url, token.key)
 
@@ -56,20 +56,20 @@ def authorize_request_token(self, token):
     oauth_verifier = raw_input('Please go to the above URL and authorize the app. Hit return when you have been authorized: ')
     return True
 
-def request_access_token(self, token):
+def request_access_token(token):
     logger.info('\nOAUTH STEP 3')
-    client = oauth.Client(self._consumer(), token=token)
+    client = oauth.Client(_consumer(), token=token)
     response, content = client.request(
-            self.ACCESS_TOKEN_URL,
+            ACCESS_TOKEN_URL,
             headers={"Content-Type":"application/x-www-form-urlencoded"}
     )
-    return self._token_from_response_content(content)
+    return _token_from_response_content(content)
 
-def request(self, url, access_token):
+def request(url, access_token):
     ''' Once you have an access_token authorized by a customer,
         execute a request on their behald
     '''
-    client = oauth.Client(self._consumer(), token=access_token)
+    client = oauth.Client(_consumer(), token=access_token)
     response = client.request(
             url,
             headers={"Content-Type":"application/x-www-form-urlencoded"}
