@@ -31,24 +31,21 @@ would convert to {'track' : {'@id' : 123, ...}}
 
 Usage
 -----
+    # set your oauth_consumer_key, oauth_consumer_secret, and country in the api_settings.py module.
     import py7D
-    client = py7D.APIClient("your oauth_consumer_key", "an ISO country code")
-    results = client.request(method, function, page=1, pageSize=10)
-    results = client.request(method, function)
+    results = py7D.request(method, function, page=1, pageSize=10)
+    results = py7D.request(method, function)
 
 Examples
 -------
-    client = py7D.APIClient(oauth_consumer_key, 'USA')
-    results = client.request('artist', 'search', q='black')
-    results = client.request('artist', 'search', q='black', page=1, pageSize=20)
-    results = client.request('tag', None)
+    results = py7D.request('artist', 'search', q='black')
+    results = py7D.request('artist', 'search', q='black', page=1, pageSize=20)
+    results = py7D.request('tag', None)
 
-    client = py7D.APIClient(oauth_consumer_key, 'GB')
-    results = client.request('artist', 'details', artistId=263)
+    results = py7D.request('artist', 'details', artistId=263)
     
     OAuth signed request:
-    client = py7D.APIClient(oauth_consumer_key, 'USA', secret=oauth_consumer_secret)
-    client.oauth_request('user', 'locker', access_token)
+    py7D.oauth_request('user', 'locker', access_token)
     
 
 OAuth
@@ -68,7 +65,7 @@ Its usage to get an access token remains the same:
  
 Example Output
 --------------
-    resp = client.request('artist', 'search', q='pink', pageSize=3)
+    resp = py7D.request('artist', 'search', q='pink', pageSize=3)
     print json.dumps(resp, indent=4)
 
     {

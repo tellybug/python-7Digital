@@ -2,17 +2,14 @@ import py7D
 import json
 
 def track_previews():
-    client = py7D.APIClient(
-        "your_oauth_customer_key",
-        "your_ISO_country_code")
 
-    response = client.request('track', 'search', q='Aja')
+    response = py7D.request('track', 'search', q='Aja', pageSize=3)
     tracks = response['searchResults']['searchResult']
     
 
     for track in tracks:
         print track
-        track['preview'] = client.preview_url(track['track']['@id'])
+        track['preview'] = py7D.preview_url(track['track']['@id'])
     
     return tracks
 
