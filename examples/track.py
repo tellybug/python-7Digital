@@ -1,4 +1,5 @@
 import py7D
+import json
 
 def track_previews():
     client = py7D.APIClient(
@@ -16,4 +17,4 @@ def track_previews():
     return tracks
 
 if __name__ == "__main__":
-    print track_previews()
+    print json.dumps(track_previews(), indent=4)
