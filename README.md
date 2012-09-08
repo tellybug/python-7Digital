@@ -57,6 +57,7 @@ The original oauth7digital.py can be found at
 git://github.com/7digital/python-7digital-api.git
 
 Its usage to get an access token:
+
     import oauth7digital as oa7d
     token = oa7d.request_token()
     authorized = oa7d.authorize_request_token(token)
