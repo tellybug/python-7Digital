@@ -12,9 +12,9 @@ VERSION = '1.2'
 REQUEST_TOKEN_URL = 'https://%s/%s/oauth/requesttoken' % (SERVER, VERSION)
 ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, VERSION)
 AUTHORIZATION_URL = 'https://account.7digital.com/%s/oauth/authorise'
-LOGGER_NAME = 'Oauth7Digital.log'
+LOGGER_NAME = 'Oauth7Digital.logger'
 
-logger = logging.getLogger("oauth7digital.logger")
+logger = logging.getLogger(LOGGER_NAME)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 if api_settings.log_dir and api_settings.log_name:
