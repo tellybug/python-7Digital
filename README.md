@@ -24,8 +24,7 @@ The response is converted from XML to a python Ordered Dict, and each
 node in the XML is converted to a key name. 
 
 In the case of a node attribute, the attribute name is converted to a
-key name preceded by the '@' character. For example, 
-<track id=123>...</track>
+key name preceded by the '@' character. For example, the id attribute on the track node
 would convert to {'track' : {'@id' : 123, ...}}
 
 
