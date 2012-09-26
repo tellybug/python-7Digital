@@ -21,7 +21,7 @@ API_URL = 'https://api.7digital.com/%s' % API_VERSION
 PREVIEW_URL = '%s/track/preview?oauth_consumer_key=%s&trackid=%s&' % (
                                                     API_URL, "%s", "%s")
 
-class APIServiceExeption(Exception):
+class APIServiceException(Exception):
     pass
 
 class APIClientException(Exception):
@@ -67,7 +67,7 @@ def _execute(method, function, access_token=None, **kwargs):
         api_response = xmltodict.parse(content, xml_attribs=True)
 
     if api_response['response']['@status'] == "error":
-        raise APIServiceExeption('Error code %s: %s' % (
+        raise APIServiceException('Error code %s: %s' % (
                 api_response['response']['error']['@code'],
                 api_response['response']['error']['errorMessage'])
         )
