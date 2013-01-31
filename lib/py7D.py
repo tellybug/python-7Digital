@@ -4,6 +4,7 @@ import urllib
 import re
 import urlparse
 import xmltodict
+import collections
 
 import oauth7digital as oa7D
 import api_settings
@@ -57,14 +58,19 @@ def _assemble_url(host, method, function, oauth, **kwargs):
 
 def _execute(method, function, access_token=None, **kwargs):
     oauth = True if access_token else False
+
+    dc = kwargs.pop('dict_constructor', None) or collections.OrderedDict
+
     url = _assemble_url(API_URL, method, function, oauth, **kwargs)
 
     if access_token:
         http_response, content = oa7D.request(url, access_token)
-        api_response = xmltodict.parse(content, xml_attribs=True)
+        api_response = xmltodict.parse(
+            content, xml_attribs=True, dict_constructor=dc)
     else:
         http_response, content = httplib2.Http().request(url)
-        api_response = xmltodict.parse(content, xml_attribs=True)
+        api_response = xmltodict.parse(
+            content, xml_attribs=True, dict_constructor=dc)
 
     if api_response['response']['@status'] == "error":
         raise APIServiceExeption('Error code %s: %s' % (
