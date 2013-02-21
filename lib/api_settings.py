@@ -1,6 +1,6 @@
 ''' your local settings.
     Note that if you install using setuptools, change this
-    module first before running seyup.py install.
+    module first before running setup.py install.
 '''
 
 oauthkey = ''
