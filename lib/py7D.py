@@ -14,7 +14,7 @@ __doc__ = 'A lightweight python interface to 7Digital web service'
 __author__ = 'Jason Rubenstein'
 __version__ = '0.0.1'
 __maintainer__ = 'Jason Rubenstein'
-__email__ = 'jason@mypono.com'
+__email__ = 'jasondrubenstein@gmail.com'
 __status__ = 'Alpha'
 
 API_VERSION = '1.2'
@@ -22,7 +22,7 @@ API_URL = 'https://api.7digital.com/%s' % API_VERSION
 PREVIEW_URL = '%s/track/preview?oauth_consumer_key=%s&trackid=%s&' % (
                                                     API_URL, "%s", "%s")
 
-class APIServiceExeption(Exception):
+class APIServiceException(Exception):
     pass
 
 class APIClientException(Exception):
@@ -73,7 +73,7 @@ def _execute(method, function, access_token=None, **kwargs):
             content, xml_attribs=True, dict_constructor=dc)
 
     if api_response['response']['@status'] == "error":
-        raise APIServiceExeption('Error code %s: %s' % (
+        raise APIServiceException('Error code %s: %s' % (
                 api_response['response']['error']['@code'],
                 api_response['response']['error']['errorMessage'])
         )
