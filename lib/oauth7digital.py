@@ -48,7 +48,10 @@ def request_token():
 
     response, content = request_2legged(REQUEST_TOKEN_URL)
 
-    return _token_from_response_content(content)
+    if response['status'] == '200':
+        return _token_from_response_content(content)
+
+    return response, content
 
 def authorize_request_token(token):
     keyed_auth_url = AUTHORIZATION_URL % api_settings.oauthkey
