@@ -35,6 +35,14 @@ def _token_from_response_content(content):
 
     return oauth.Token(key, secret)
 
+def request_2legged(url):
+    client = oauth.Client(_consumer())
+    response, content = client.request(
+        url,
+        headers = {"Content-Type":"application/x-www-form-urlencoded"}
+    )
+    return response, content
+
 def request_token():
     logger.info('\nOAUTH STEP 1')
 
