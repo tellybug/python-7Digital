@@ -74,7 +74,7 @@ def request_access_token(token):
 
 def request(url, access_token):
     ''' Once you have an access_token authorized by a customer,
-        execute a request on their behald
+        execute a request on their behalf
     '''
     client = oauth.Client(_consumer(), token=access_token)
     response = client.request(

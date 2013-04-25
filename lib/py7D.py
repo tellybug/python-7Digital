@@ -12,10 +12,10 @@ import api_settings
 __name__ = 'py7D'
 __doc__ = 'A lightweight python interface to 7Digital web service'
 __author__ = 'Jason Rubenstein'
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 __maintainer__ = 'Jason Rubenstein'
 __email__ = 'jasondrubenstein@gmail.com'
-__status__ = 'Alpha'
+__status__ = 'Beta'
 
 API_VERSION = '1.2'
 API_URL = 'https://api.7digital.com/%s' % API_VERSION
