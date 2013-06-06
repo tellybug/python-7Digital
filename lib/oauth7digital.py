@@ -42,7 +42,8 @@ def request_2legged(url):
     client = oauth.Client(_consumer())
     response, content = client.request(
         url,
-        headers = {"Content-Type":"application/x-www-form-urlencoded"}
+        headers = {"Content-Type":"application/x-www-form-urlencoded"},
+        body="country=%s" % api_settings.country
     )
     return response, content
 
