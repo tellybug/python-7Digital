@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='py7D',
-      version='0.0.1',
+      version='0.0.2',
       description = 'A lightweight python interface to 7Digital web service',
       author = "Jason Rubenstein",
       author_email = 'jasondrubenstein@gmail.com',

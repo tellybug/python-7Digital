@@ -25,6 +25,7 @@ PREVIEW_URL = '%s/track/preview?oauth_consumer_key=%s&trackid=%s&' % (
 class APIServiceException(Exception):
     pass
 
+
 class APIClientException(Exception):
     pass
 
@@ -37,10 +38,12 @@ def _assemble_url(host, method, function, oauth, **kwargs):
             kwargs[k] = str(v)
 
     quote = lambda _param_name: urllib.quote_plus(
-                        _param_name.replace('&amp;', '&').encode('utf8'))
+                        _param_name.replace('&amp;', '&').encode('utf8')
+    )
 
     for name in kwargs.keys():
         data.append('='.join((name, quote(kwargs[name]))))
+
     data = '&'.join(data)
 
     url = os.path.join(host, method)
@@ -49,12 +52,14 @@ def _assemble_url(host, method, function, oauth, **kwargs):
 
     if not oauth:
         url = "%s%s" % (url, '?oauth_consumer_key=%s&country=%s' % (
-                                                            api_settings.oauthkey,
-                                                            api_settings.country))
+                                                        api_settings.oauthkey,
+                                                        api_settings.country)
+                       )
     if data:
         url += "&%s" % data
 
     return url
+
 
 def _execute(method, function, access_token=None, **kwargs):
     oauth = True if access_token else False
@@ -75,11 +80,13 @@ def _execute(method, function, access_token=None, **kwargs):
     if api_response['response']['@status'] == "error":
         raise APIServiceException('Error code %s: %s' % (
                 api_response['response']['error']['@code'],
-                api_response['response']['error']['errorMessage'])
+                api_response['response']['error']['errorMessage']
+                )
         )
 
     api_response['http_headers'] = http_response
     return api_response
+
 
 def request(method, function, **kwargs):
     ''' Input:
@@ -116,6 +123,7 @@ def oauth_request(method, function, access_token, **kwargs):
 
     return _execute(method, function, access_token, **kwargs)
 
+
 def preview_url(track_id):
     ''' construct a preview url for a track identified by its
         track_id.
@@ -127,4 +135,3 @@ def preview_url(track_id):
             The preview URL for that track (str)
     '''
     return PREVIEW_URL % (api_settings.oauthkey, track_id)
-

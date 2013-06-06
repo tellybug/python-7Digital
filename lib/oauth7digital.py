@@ -17,6 +17,7 @@ LOGGER_NAME = 'Oauth7Digital.logger'
 logger = logging.getLogger(LOGGER_NAME)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
+
 if api_settings.log_dir and api_settings.log_name:
     log_fd = open(os.path.join(api_settings.log_dir, api_settings.log_name))
     logger.addHandler(logging.StreamHandler(log_fd))
@@ -24,6 +25,7 @@ if api_settings.log_dir and api_settings.log_name:
 
 def _consumer():
     return oauth.Consumer(api_settings.oauthkey, api_settings.secret)
+
 
 def _token_from_response_content(content):
     key = re.search(
@@ -35,6 +37,7 @@ def _token_from_response_content(content):
 
     return oauth.Token(key, secret)
 
+
 def request_2legged(url):
     client = oauth.Client(_consumer())
     response, content = client.request(
@@ -42,6 +45,7 @@ def request_2legged(url):
         headers = {"Content-Type":"application/x-www-form-urlencoded"}
     )
     return response, content
+
 
 def request_token():
     logger.info('\nOAUTH STEP 1')
@@ -53,6 +57,7 @@ def request_token():
 
     return response, content
 
+
 def authorize_request_token(token):
     keyed_auth_url = AUTHORIZATION_URL % api_settings.oauthkey
     logger.info('\nOAUTH STEP 2')
@@ -60,8 +65,13 @@ def authorize_request_token(token):
 
     # auth url to go to
     logger.info('Authorization URL:\n%s' % auth_url)
-    oauth_verifier = raw_input('Please go to the above URL and authorize the app. Hit return when you have been authorized: ')
+    oauth_verifier = raw_input(
+        'Please go to the above URL and authorize the app. \
+        Hit return when you have been authorized: '
+    )
+
     return True
+
 
 def request_access_token(token):
     logger.info('\nOAUTH STEP 3')
@@ -70,7 +80,9 @@ def request_access_token(token):
             ACCESS_TOKEN_URL,
             headers={"Content-Type":"application/x-www-form-urlencoded"}
     )
+
     return _token_from_response_content(content)
+
 
 def request(url, access_token):
     ''' Once you have an access_token authorized by a customer,
