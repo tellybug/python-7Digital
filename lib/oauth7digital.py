@@ -8,9 +8,9 @@ import api_settings
 import oauth2 as oauth # https://github.com/simplegeo/python-oauth2
 
 SERVER = 'api.7digital.com'
-VERSION = '1.2'
-REQUEST_TOKEN_URL = 'https://%s/%s/oauth/requesttoken' % (SERVER, VERSION)
-ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, VERSION)
+API_VERSION = '1.2'
+REQUEST_TOKEN_URL = 'https://%s/%s/oauth/requesttoken' % (SERVER, API_VERSION)
+ACCESS_TOKEN_URL = 'https://%s/%s/oauth/accesstoken' % (SERVER, API_VERSION)
 AUTHORIZATION_URL = 'https://account.7digital.com/%s/oauth/authorise'
 LOGGER_NAME = 'Oauth7Digital.logger'
 
@@ -85,7 +85,7 @@ def request_access_token(token):
     return _token_from_response_content(content)
 
 
-def request(url, access_token):
+def request_3legged(url, access_token):
     ''' Once you have an access_token authorized by a customer,
         execute a request on their behalf
     '''
